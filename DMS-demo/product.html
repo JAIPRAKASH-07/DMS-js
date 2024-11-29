@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>product-main</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="form.css">
+</head>
+
+<body>
+
+
+    <nav class="navbar">
+        <div class="back-arrow"><i class="bi bi-justify"></i></div>
+        <div class="brand">
+            <h1>Matryx Medisys</h1>
+            <span>Medical Excellence</span>
+        </div>
+        <div class="search-container">
+
+            <input type="text" placeholder="Search...">
+            <button type="submit"><i class="bi bi-search"></i></button>
+
+        </div>
+        <div class="icons">
+            <span class="icon"><i class="bi bi-envelope"></i></span>
+            <span class="icon"><i class="bi bi-bell"></i></span>
+            <span class="icon"><i class="bi bi-person"></i></span>
+        </div>
+    </nav>
+    <section class="aside-main">
+        <aside class="sidebar" id="sidebar">
+            <ul class="menu">
+                <li>
+                    <span class="icon"><i class="bi bi-grid-1x2-fill"></i></span>
+                    <span class="title"><a href="./Dashboard.html">Dashboard</a></span>
+                </li>
+                <li>
+                    <span class="icon"><i class="bi bi-filter-square-fill"></i></span>
+                    <span class="title"><a href="./case-creation.html">Case Creation</a></span>
+                </li>
+                <li>
+                    <span class="icon"><i class="bi bi-plus-square-fill"></i></span>
+                    <span class="title"><a href="./hospitals">Hospitals</a></span>
+                </li>
+                <li>
+                    <span class="icon"><i class="bi bi-people-fill"></i></span>
+                    <span class="title"><a href="./doctors">Doctors</a></span>
+                </li>
+                <li>
+                    <span class="icon"><i class="bi bi-journal-bookmark-fill"></i></span>
+                    <span class="title"><a href="./categories">Categories</a></span>
+                </li>
+                <li>
+                    <span class="icon"><i class="bi bi-briefcase-fill"></i></span>
+                    <span class="title"> <a href="./principles.html">Principles</a></span>
+                </li>
+                <li>
+                    <span class="icon"><i class="bi bi-cart3"></i></span>
+                    <span class="title"><a href="./product.html">Products</a></span>
+                </li>
+                <li>
+                    <span class="icon"><i class="bi bi-buildings-fill"></i></span>
+                    <span class="title"><a href="./departments">Departments</a></span>
+                </li>
+                <li>
+                    <span class="icon"><i class="bi bi-person-fill"></i></span>
+                    <span class="title"><a href="./sales-employee">Sales Employee</a></span>
+                </li>
+            </ul>
+        </aside>
+        <main>
+            <div class="form-container">
+                <span id="crossbtn"><i class="bi bi-x"></i></span>
+                <h1>Add Product</h1>
+
+                <form id="fprmid">
+                    <div class="container">
+                        <label>Principle</label>
+                        <input type="text" id="displayText" readonly>
+                    </div>
+
+                    <label for="productCode">Product Code:</label>
+                    <input type="text" id="productCode" name="productCode" placeholder="Product Code" required>
+
+                    <div class="form-row">
+                        <div>
+                            <label for="batchCode">Batch Code:</label>
+                            <input type="text" id="batchCode" name="batchCode" placeholder="Batch Code" required>
+                        </div>
+                        <div>
+                            <label for="expiryDate">Expiry Date:</label>
+                            <input type="date" id="expiryDate" name="expiryDate" placeholder="dd-mm-yyyy">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div>
+                            <label for="mrp">MRP:</label>
+                            <input type="text" id="mrp" name="mrp" placeholder="MRP" required>
+                        </div>
+                        <div>
+                            <label for="dpValue">DP Value:</label>
+                            <input type="text" id="dpValue" name="dpValue" placeholder="DP Value" required>
+                        </div>
+
+                        <div>
+                            <label for="quantity">Quantity:</label>
+                            <input type="text" id="quantity" name="quantity" placeholder="Quantity" required>
+                        </div>
+                    </div>
+                    <button type="submit" id="btn">Submit</button>
+                </form>
+            </div>
+        </main>
+    </section>
+
+    <script src="./navaside.js"></script>
+    <script>
+        // Display stored value in the principle text field
+        const storedValue = localStorage.getItem('textInput');
+        document.getElementById('displayText').value = storedValue;
+
+        // Handle cross button click event
+        document.querySelector('#crossbtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = "";
+        });
+    </script>
+</body>
+
+</html>

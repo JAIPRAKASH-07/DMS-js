@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matryx Medisys Dashboard demo</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            background-color: #1976D2;
+            padding: 10px 20px;
+            color: white;
+        }
+
+        .back-arrow {
+            font-size: 24px;
+            margin-right: 20px;
+            cursor: pointer;
+        }
+
+        .back-arrow:hover {
+            color: #FFD700;
+        }
+
+        .brand h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .brand span {
+            font-size: 14px;
+            color: #FFD700;
+            display: block;
+        }
+
+        .search-container {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-container input {
+            padding: 7px 10px;
+            border-radius: 5px 0 0 5px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+
+        .search-container button {
+            padding: 7px 10px;
+            border: none;
+            background-color: #42A5F5;
+            color: white;
+            cursor: pointer;
+            border-radius: 0 5px 5px 0;
+            border: 1px solid #42A5F5;
+        }
+
+        .icons {
+            margin-left: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .icon {
+            font-size: 24px;
+            margin-left: 20px;
+            cursor: pointer;
+        }
+
+        .icon:hover {
+            color: #FFD700;
+        }
+
+        .plane {
+            display: flex;
+            height: calc(100% - 50px);
+        }
+
+        .sidebar {
+            width: 220px;
+            height: 100%;
+            background-color: #FFF;
+            padding-top: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.hidden {
+            transform: translateX(-100%);
+        }
+
+        .menu {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .menu li {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: #555;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .menu li:hover {
+            background-color: #E3F2FD;
+        }
+
+        .menu .icon {
+            font-size: 20px;
+            margin-right: 15px;
+        }
+
+        .menu .title {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .main {
+            flex-grow: 1;
+            padding: 30px;
+            background-color: #f4f6f9;
+            transition: margin-left 0.3s ease;
+        }
+
+        .main.full-width {
+            margin-left: 0;
+        }
+
+        .sub-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .sub-main input[type="search"] {
+            padding: 7px 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            width: 200px;
+        }
+
+        .sub-main h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .sub-main button {
+            padding: 10px 20px;
+            background-color: #1976D2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .sub-main button:hover {
+            background-color: #0d47a1;
+        }
+       
+    </style> 
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="back-arrow"><i class="bi bi-justify"></i></div>
+        <div class="brand">
+            <h1>Matryx Medisys</h1>
+            <span>Medical Excellence</span>
+        </div>
+        <div class="search-container">
+            <input type="text" placeholder="Search...">
+            <button type="submit">&#128269;</button>
+        </div>
+        <div class="icons">
+            <span class="icon"><i class="bi bi-envelope"></i></span>
+            <span class="icon"><i class="bi bi-bell"></i></span>
+            <span class="icon"><i class="bi bi-person"></i></span>
+        </div>
+    </div>
+
+    <section class="plane">
+        <div class="sidebar" id="sidebar">
+            <ul class="menu">
+                <li>
+                    <span class="icon"><i class="bi bi-grid-1x2-fill"></i></span>
+                    <span class="title">Dashboard</span>
+                </li>
+                <li>
+                    <span class="icon"><i class="bi bi-filter-square-fill"></i></span>
+                    <span class="title">Case Creation</span>
+                </li>
+                <li>
+                    <span class="icon"><i class="bi bi-plus-square-fill"></i></span>
+                    <span class="title">Hospitals</span>
+                </li>
+                <li>
+                    <span class="icon"><i class="bi bi-people-fill"></i></span>
+                    <span class="title">Doctors</span>
+                </li>
+                <li>
+                    <span class="icon"><i class="bi bi-journal-bookmark-fill"></i></span>
+                    <span class="title">Categories</span>
+                </li>
+                <li>
+                    <span class="icon"><i class="bi bi-briefcase-fill"></i></span>
+                    <span class="title"> Principles</span>
+                </li>
+                <li>
+                    <span class="icon"><i class="bi bi-cart3"></i></span>
+                    <span class="title">Products</span>
+                </li>
+                <li>
+                    <span class="icon"><i class="bi bi-buildings-fill"></i></span>
+                    <span class="title">Departments</span>
+                </li>
+                <li>
+                    <span class="icon"><i class="bi bi-person-fill"></i></span>
+                    <span class="title">Sales Employee</span>
+                </li>
+            </ul>
+        </div>
+        </div>
+    </section>
+
+    <script>
+        const backArrow = document.querySelector('.back-arrow');
+        const sidebar = document.getElementById('sidebar');
+        // const mainContent = document.getElementById('main-content');
+
+        backArrow.addEventListener('click', () => {
+            sidebar.classList.toggle('hidden');
+            // mainContent.classList.toggle('full-width');
+        });
+    </script>
+</body>
+
+</html>

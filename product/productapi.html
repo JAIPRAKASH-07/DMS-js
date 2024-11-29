@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>navaside-main</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="./styles.css">
+    <style>
+        /* Styling for the product form */
+        .classdiv{
+            width: 80%;
+            
+
+        }
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            margin-top: 20px;
+            margin-left: 150px;
+            margin-bottom: 50px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 1000px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        /* Input fields */
+        .input-text,
+        input[type="date"],
+        select {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form-row div {
+            width: 48%;
+        }
+
+        /* Buttons */
+        #actionBtn {
+            width: 15%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #actionBtn:hover {
+            background-color: #0056b3;
+        }
+
+        #actionBtn:active {
+            transform: scale(0.98);
+        }
+
+        /* Table styling */
+        .table-style {
+            width: 75%;
+            
+            margin: 5px 0;
+            border-collapse: collapse;
+            box-sizing: border-box;
+        }
+        #tableid{
+            margin-left: 150px;
+        }
+
+        .table-style th,
+        .table-style td {
+            padding: 6px;
+            text-align: left;
+            border-bottom: 1px solid #0097a7;
+        }
+
+        .table-style th {
+            background-color: #00796b;
+            color: white;
+        }
+
+        .table-style tr:hover {
+            background-color: #b2ebf2;
+        }
+
+        /* Hide form by default */
+        .form-container {
+            display: none;
+        }
+        #toggleFormBtn{
+            width: 10%;
+            margin-left: 1000px;
+            margin-top: 50px;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #toggleFormBtn:hover {
+            background-color: #0056b3;
+        }
+         /* Close button */
+         #crossbtn {
+            margin-left: 960px;
+            font-size: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="back-arrow"><i class="bi bi-justify"></i></div>
+        <div class="brand">
+            <h1>Matryx Medisys</h1>
+            <span>Medical Excellence</span>
+        </div>
+        <div class="search-container">
+
+            <input type="text" placeholder="Search...">
+            <button type="submit"><i class="bi bi-search"></i></button>
+
+        </div>
+        <div class="icons">
+            <span class="icon"><i class="bi bi-envelope"></i></span>
+            <span class="icon"><i class="bi bi-bell"></i></span>
+            <span class="icon"><i class="bi bi-person"></i></span>
+        </div>
+    </nav>
+    <section class="aside-main">
+        <aside class="sidebar" id="sidebar">
+            <ul class="menu">
+                <li>
+                    <span class="icon"><i class="bi bi-grid-1x2-fill"></i></span>
+                    <span class="title"><a href="./Dashboard.html">Dashboard</a></span>
+                </li>
+                <li>
+                    <span class="icon"><i class="bi bi-filter-square-fill"></i></span>
+                    <span class="title"><a href="./case-creation.html">Case Creation</a></span>
+                </li>
+                <li>
+                    <span class="icon"><i class="bi bi-plus-square-fill"></i></span>
+                    <span class="title"><a href="./hospitals.html">Hospitals</a></span>
+                </li>
+                <li>
+                    <span class="icon"><i class="bi bi-people-fill"></i></span>
+                    <span class="title"><a href="./doctors.html">Doctors</a></span>
+                </li>
+                <li>
+                    <span class="icon"><i class="bi bi-journal-bookmark-fill"></i></span>
+                    <span class="title"><a href="./categories.html">Categories</a></span>
+                </li>
+                <li>
+                    <span class="icon"><i class="bi bi-briefcase-fill"></i></span>
+                    <span class="title"> <a href="./principles.html">Principles</a></span>
+                </li>
+                <li>
+                    <span class="icon"><i class="bi bi-cart3"></i></span>
+                    <span class="title"><a href="./product.html">Products</a></span>
+                </li>
+                <li>
+                    <span class="icon"><i class="bi bi-buildings-fill"></i></span>
+                    <span class="title"><a href="./departments.html">Departments</a></span>
+                </li>
+                <li>
+                    <span class="icon"><i class="bi bi-person-fill"></i></span>
+                    <span class="title"><a href="./sales-employee.html">Sales Employee</a></span>
+                </li>
+            </ul>
+        </aside>
+        <main>
+            <div class="classdiv">
+                <!-- Toggle Button for showing/hiding the form -->
+                <button id="toggleFormBtn">Add New Product</button>
+            
+                <main>
+                    <h1 id="h1id">Product Page</h1>
+                    <h3 id="msgid"></h3>
+            
+                    <!-- Product form -->
+                    <form id="productForm" class="form-container">
+                     <!--    <span id="crossbtn"><i class="bi bi-x"></i></span> -->
+                        <h1>Product Form</h1>
+                       
+                        <!-- Product Name -->
+                        <label for="productCode">Product name :</label>
+                        <input type="text" class="input-text" id="name" name="name" placeholder="Product name" required>
+            
+                           <!-- Batch Code and Expiry Date -->
+                        <div class="form-row">
+                            <div>
+                                <label for="batchCode">Batch Code:</label>
+                                <input type="text" class="input-text" id="batchCode" name="batchCode" placeholder="Batch Code" required>
+                            </div>
+                            <div>
+                                <label for="expiryDate">Expiry Date:</label>
+                                <input type="text"  class="input-text" id="expiryDate" name="expiryDate" placeholder="yyyy-mm-dd">
+                            </div>
+                        </div>
+            
+                        <!-- MRP and Quantity -->
+                        <div class="form-row">
+                            <div>
+                                <label for="mrp">MRP:</label>
+                                <input type="text" class="input-text" id="mrp" name="mrp" placeholder="MRP" required>
+                            </div>
+                            <div>
+                                <label for="dpValue">DP Value:</label>
+                                <input type="text" class="input-text" id="dpvalue" name="dpValue" placeholder="DP Value" >
+                            </div>
+                            <div>
+                                <label for="quantity">Quantity:</label>
+                                <input type="text" class="input-text" id="quantity" name="quantity" placeholder="Quantity" >
+                            </div>
+                        </div>
+            
+                        <!-- Dynamic button: Submit / Update -->
+                        <button type="submit" id="actionBtn">Submit</button>
+                    </form>
+            
+                    <!-- Table displaying products -->
+                    <table border="1" id="tableid" class="table-style">
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Batch Code</th>
+                                <th>Expiry Date</th>
+                                <th>MRP</th>
+                                <th>dpvalue</th>
+                                <th>Quantity</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productTable">
+                            <!-- Dynamic rows go here -->
+                        </tbody>
+                    </table>
+                </main>
+            </div>
+        </main>
+    </section>
+
+    <script src="./navaside.js"></script>
+    <script src="fetchapi.js"></script>
+</body>
+
+</html>

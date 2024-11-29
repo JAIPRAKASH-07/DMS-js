@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Department Management</title>
+    <style>
+        /* Basic styles for the layout */
+        main{
+            margin-left: 500px;
+            margin-top: 20px;
+        }
+        .form-container {
+            width: 50%;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            display: none;
+            /* Initially hidden */
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .textdiv {
+            width: 100%;
+            padding: 10px;
+            margin-right: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        input[type="submit"] {
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+
+        table {
+            width: 25%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .form-row {
+            display: flex;
+            justify-content: space-evenly;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+    <button id="toggleButton">Add Department</button>
+
+    <div class="form-container" id="formContainer">
+        <h2>Department Registration</h2>
+        <form id="departmentForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="name">Department Name</label>
+                    <input type="text" id="name" name="name" class="textdiv" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" class="textdiv" placeholder="Test Department1"
+                        rows="1" ></textarea>
+                </div>
+            </div>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+    <table id="departmentTable">
+        <thead>
+            <tr>
+                <th>Department Name</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be populated here dynamically -->
+        </tbody>
+    </table>
+</main>
+    <script>
+        const departmentForm = document.getElementById('departmentForm');
+        const departmentTable = document.getElementById('departmentTable').querySelector('tbody');
+        const formContainer = document.getElementById('formContainer');
+        let isEditing = false;
+        let currentDepartmentId = null;
+
+        document.getElementById('toggleButton').addEventListener('click', () => {
+            formContainer.style.display = formContainer.style.display === 'none' ? 'block' : 'none';
+            resetForm();
+        });
+
+        // Fetch departments on page load
+        document.addEventListener('DOMContentLoaded', fetchDepartments);
+
+        // Fetch all departments (GET)
+        function fetchDepartments() {
+            fetch('http://77.37.45.2:1000/api/v1/department/fetchalldepartments') // Replace with your API endpoint
+                .then(response => response.json())
+                .then(data => {
+                    departmentTable.innerHTML = ''; // Clear the table
+
+                    data.forEach(department => {
+                        const row = departmentTable.insertRow();
+                        row.insertCell(0).textContent = department.name;
+                        row.insertCell(1).textContent = department.description;
+
+                        const actionsCell = row.insertCell(2);
+                        const editBtn = document.createElement('button');
+                        editBtn.textContent = 'Edit';
+                        editBtn.onclick = () => editDepartment(department);
+                        actionsCell.appendChild(editBtn);
+
+                        const deleteBtn = document.createElement('button');
+                        deleteBtn.textContent = 'Delete';
+                        deleteBtn.onclick = () => deleteDepartment(department.id, row);
+                        actionsCell.appendChild(deleteBtn);
+                    });
+                })
+                .catch(error => console.error('Error fetching departments:', error));
+        }
+
+        // Add or Update department (POST or PUT)
+        departmentForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const departmentData = {
+                name: document.getElementById('name').value,
+                description: document.getElementById('description').value,
+            };
+
+            if (isEditing) {
+                // Update department (PUT)
+                fetch(`http://77.37.45.2:1000/api/v1/department/updatedepartment/${currentDepartmentId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(departmentData)
+                })
+                    .then(() => {
+                        fetchDepartments(); // Refresh the table
+                        resetForm();
+                    })
+                    .catch(error => console.error('Error updating department:', error));
+            } else {
+                // Add new department (POST)
+                fetch('http://77.37.45.2:1000/api/v1/department/savedepartment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(departmentData)
+                })
+                    .then(() => {
+                        fetchDepartments(); // Refresh the table
+                        resetForm();
+                    })
+                    .catch(error => console.error('Error adding department:', error));
+            }
+        });
+
+        // Edit department
+        function editDepartment(department) {
+            isEditing = true;
+            currentDepartmentId = department.id;
+
+            document.getElementById('name').value = department.name;
+            document.getElementById('description').value = department.description;
+            formContainer.style.display = 'block'; // Show form
+        }
+
+        // Delete department (DELETE)
+        function deleteDepartment(id, row) {
+            if (confirm('Are you sure you want to delete this department?')) {
+                fetch(`http://77.37.45.2:1000/api/v1/department/deletedepartment/${id}`, {
+                    method: 'DELETE'
+                })
+                    .then(() => {
+                        row.remove(); // Remove the row from the table
+                    })
+                    .catch(error => console.error('Error deleting department:', error));
+            }
+        }
+
+        // Reset form after submission or editing
+        function resetForm() {
+            departmentForm.reset();
+            isEditing = false;
+            currentDepartmentId = null;
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Data Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        td {
+            background-color: #fff;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            display: none; /* Hidden by default */
+        }
+
+        div {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #toggleButton {
+            background-color: #2196F3;
+            color: white;
+            margin-bottom: 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            padding: 10px 15px;
+        }
+
+        .edit-btn, .delete-btn {
+            background-color: #f0ad4e;
+            color: white;
+            padding: 6px 10px;
+            margin-right: 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .delete-btn {
+            background-color: #d9534f;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hospital Data Management</h1>
+
+    <!-- Button to toggle form visibility -->
+    <button id="toggleButton">Add Doctor</button>
+
+    <form id="hospitalForm">
+        <div>
+            <h2>Doctor Details</h2>
+            <div>
+                <label for="doctorName">Doctor Name:</label>
+                <input type="text" id="doctorName" name="doctorName" required>
+            </div>
+            <div>
+                <label for="doctorEmail">Email:</label>
+                <input type="email" id="doctorEmail" name="doctorEmail" required>
+            </div>
+            <div>
+                <label for="doctorPhone">Phone Number:</label>
+                <input type="tel" id="doctorPhone" name="doctorPhone" required>
+            </div>
+            <div>
+                <label for="hospitalChoice">Select Hospital:</label>
+                <select id="hospitalChoice" name="hospitalChoice" required>
+                    <option value="" disabled selected>Select a hospital</option>
+                    <option value="Prashanth Hospital - Bommanahalli">Prashanth Hospital - Bommanahalli</option>
+                    <option value="Prashanth Hospital - HSR Layout">Prashanth Hospital - HSR Layout</option>
+                    <option value="Narayana Hospital - HSR Layout">Narayana Hospital - HSR Layout</option>
+                    <option value="Others">Others</option>
+                </select>
+            </div>
+            <button type="submit">Save</button>
+        </div>
+    </form>
+
+    <!-- Table showing hospital data -->
+    <table id="hospitalTable">
+        <thead>
+            <tr>
+                <th>S. No.</th>
+                <th>Doctor Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Hospital</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Initially empty, rows will be added dynamically -->
+        </tbody>
+    </table>
+    <script>
+        let doctorData = JSON.parse(localStorage.getItem('doctorData')) || []; // Load data from localStorage or initialize empty array
+        let currentDoctorId = null; // To track if editing
+    
+        const toggleButton = document.getElementById('toggleButton');
+        const hospitalForm = document.getElementById('hospitalForm');
+        const hospitalTable = document.getElementById('hospitalTable').getElementsByTagName('tbody')[0];
+        let rowCount = 1;  // Track row numbers
+    
+        // Toggle form visibility
+        toggleButton.addEventListener('click', () => {
+            hospitalForm.style.display = (hospitalForm.style.display === 'none' || hospitalForm.style.display === '') ? 'block' : 'none';
+        });
+    
+        // Handle form submission and POST/PUT request simulation
+        hospitalForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+    
+            const doctorName = document.getElementById('doctorName').value;
+            const doctorEmail = document.getElementById('doctorEmail').value;
+            const doctorPhone = document.getElementById('doctorPhone').value;
+            const hospitalChoice = document.getElementById('hospitalChoice').value;
+    
+            if (currentDoctorId !== null) {
+                // Edit doctor (PUT simulation)
+                doctorData = doctorData.map(doctor => 
+                    doctor.id === currentDoctorId ? { id: doctor.id, doctorName, doctorEmail, doctorPhone, hospitalChoice } : doctor
+                );
+                currentDoctorId = null;
+            } else {
+                // Add new doctor (POST simulation)
+                doctorData.push({ id: Date.now(), doctorName, doctorEmail, doctorPhone, hospitalChoice });
+            }
+    
+            saveDataToLocalStorage(); // Save data to localStorage
+            renderTable(); // Update the table
+            hospitalForm.reset(); // Clear the form
+            hospitalForm.style.display = 'none'; // Hide form
+        });
+    
+        // Save doctor data to localStorage
+        function saveDataToLocalStorage() {
+            localStorage.setItem('doctorData', JSON.stringify(doctorData));
+        }
+    
+        // Load and render the table with doctor data
+        function renderTable() {
+            hospitalTable.innerHTML = ''; // Clear existing rows
+    
+            doctorData.forEach((doctor, index) => {
+                const newRow = hospitalTable.insertRow();
+    
+                newRow.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${doctor.doctorName}</td>
+                    <td>${doctor.doctorEmail}</td>
+                    <td>${doctor.doctorPhone}</td>
+                    <td>${doctor.hospitalChoice}</td>
+                    <td>
+                        <button class="edit-btn" onclick="editDoctor(${doctor.id})">Edit</button>
+                        <button class="delete-btn" onclick="deleteDoctor(${doctor.id})">Delete</button>
+                    </td>
+                `;
+            });
+        }
+    
+        // Edit doctor (PUT simulation)
+        function editDoctor(id) {
+            const doctor = doctorData.find(doctor => doctor.id === id);
+    
+            document.getElementById('doctorName').value = doctor.doctorName;
+            document.getElementById('doctorEmail').value = doctor.doctorEmail;
+            document.getElementById('doctorPhone').value = doctor.doctorPhone;
+            document.getElementById('hospitalChoice').value = doctor.hospitalChoice;
+    
+            currentDoctorId = id; // Set ID to track
+            hospitalForm.style.display = 'block'; // Show form
+        }
+    
+        // Delete doctor (DELETE simulation)
+        function deleteDoctor(id) {
+            doctorData = doctorData.filter(doctor => doctor.id !== id);
+            saveDataToLocalStorage(); // Save updated data to localStorage
+            renderTable(); // Re-render the table after deletion
+        }
+    
+        // Initial rendering of the table
+        renderTable();
+    </script>
+    
+
+</body>
+</html>
